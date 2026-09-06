@@ -1,4 +1,4 @@
-```
+
 # Student Management System
 
 A simple Student Management System built using Django and Python.
@@ -23,4 +23,3 @@ A simple Student Management System built using Django and Python.
 - HTML
 - CSS
 - SQLite
-```
