@@ -1,0 +1,109 @@
+{% extends 'students/base.html' %}
+
+{% block title %}
+Students
+{% endblock %}
+
+{% block content %}
+
+<h2>Student List</h2>
+
+<form method="GET">
+
+    <input
+        type="text"
+        name="q"
+        placeholder="Search student..."
+        value="{{ query|default:'' }}"
+    >
+
+    <select name="sort">
+
+        <option value="id" {% if sort == 'id' %}selected{% endif %}>
+            Default
+        </option>
+
+        <option value="name" {% if sort == 'name' %}selected{% endif %}>
+            Name
+        </option>
+
+        <option value="age" {% if sort == 'age' %}selected{% endif %}>
+            Age
+        </option>
+
+    </select>
+
+    <button type="submit">Search</button>
+
+</form>
+
+<br>
+
+<a class="add-btn" href="{% url 'add_student' %}">
+    + Add Student
+</a>
+
+{% for student in students %}
+
+    <div class="student-card">
+
+        <h3>{{ student.name }}</h3>
+
+        <p>Email: {{ student.email }}</p>
+
+        <p>Age: {{ student.age }}</p>
+
+        <a href="{% url 'edit_student' student.id %}">
+            <button class="edit-btn">Edit</button>
+        </a>
+
+        <form method="POST"
+              action="{% url 'delete_student' student.id %}"
+              style="display:inline;">
+
+            {% csrf_token %}
+
+            <button class="delete-btn" type="submit">
+                Delete
+            </button>
+
+        </form>
+
+    </div>
+
+{% empty %}
+
+    <p>No students found.</p>
+
+{% endfor %}
+
+
+{% if students.has_other_pages %}
+
+    <div class="pagination">
+
+        {% if students.has_previous %}
+
+            <a href="?page={{ students.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">
+                Previous
+            </a>
+
+        {% endif %}
+
+        <span>
+            Page {{ students.number }} of {{ students.paginator.num_pages }}
+        </span>
+
+        {% if students.has_next %}
+
+            <a href="?page={{ students.next_page_number }}{% if query %}&q={{ query }}{% endif %}">
+                Next
+            </a>
+
+        {% endif %}
+
+    </div>
+
+{% endif %}
+
+{% endblock %}
