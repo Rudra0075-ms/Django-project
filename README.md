@@ -16,7 +16,7 @@ A simple Student Management System built using Django and Python.
 - Sort Students
 - Pagination
 - Form Validation
-- Dashboard
+- Dashboard 
 
 ## Technologies
 
