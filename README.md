@@ -25,3 +25,7 @@ A simple Student Management System built using Django and Python.
 - HTML
 - CSS
 - SQLite
+
+
+
+making it more advanced
