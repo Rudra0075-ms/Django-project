@@ -1,109 +1,61 @@
 {% extends 'students/base.html' %}
-
-{% block title %}
-Students
-{% endblock %}
-
+{% block title %}Students{% endblock %}
 {% block content %}
+<div class="container">
 
-<h2>Student List</h2>
+  <div class="page-header">
+    <h2>All Students</h2>
+    <p class="subtitle">Manage your student records</p>
+  </div>
 
-<form method="GET">
+  <div class="search-bar">
+    <form method="GET">
+      <input type="text" name="q" placeholder="Search by name or email" value="{{ query|default:'' }}">
+      <select name="sort">
+        <option value="id" {% if sort == 'id' %}selected{% endif %}>Sort: ID</option>
+        <option value="name" {% if sort == 'name' %}selected{% endif %}>Sort: Name</option>
+        <option value="age" {% if sort == 'age' %}selected{% endif %}>Sort: Age</option>
+      </select>
+      <button type="submit">Filter</button>
+    </form>
+    <a href="{% url 'add_student' %}" class="add-btn btn-primary">+ Add Student</a>
+  </div>
 
-    <input
-        type="text"
-        name="q"
-        placeholder="Search student..."
-        value="{{ query|default:'' }}"
-    >
-
-    <select name="sort">
-
-        <option value="id" {% if sort == 'id' %}selected{% endif %}>
-            Default
-        </option>
-
-        <option value="name" {% if sort == 'name' %}selected{% endif %}>
-            Name
-        </option>
-
-        <option value="age" {% if sort == 'age' %}selected{% endif %}>
-            Age
-        </option>
-
-    </select>
-
-    <button type="submit">Search</button>
-
-</form>
-
-<br>
-
-<a class="add-btn" href="{% url 'add_student' %}">
-    + Add Student
-</a>
-
-{% for student in students %}
-
+  <div class="student-grid">
+    {% for student in students %}
     <div class="student-card">
-
-        <h3>{{ student.name }}</h3>
-
-        <p>Email: {{ student.email }}</p>
-
-        <p>Age: {{ student.age }}</p>
-
-        <a href="{% url 'edit_student' student.id %}">
-            <button class="edit-btn">Edit</button>
-        </a>
-
-        <form method="POST"
-              action="{% url 'delete_student' student.id %}"
-              style="display:inline;">
-
-            {% csrf_token %}
-
-            <button class="delete-btn" type="submit">
-                Delete
-            </button>
-
+      <div class="avatar">
+        {% if student.photo %}
+          <img src="{{ student.photo.url }}" alt="{{ student.name }}">
+        {% else %}
+          <span>{{ student.name|first }}</span>
+        {% endif %}
+      </div>
+      <h3>{{ student.name }}</h3>
+      <p class="info">📧 {{ student.email }}</p>
+      <p class="info">🎂 Age: {{ student.age }}</p>
+      <div class="card-actions">
+        <a href="{% url 'edit_student' student.id %}" class="edit-btn">Edit</a>
+        <form method="POST" action="{% url 'delete_student' student.id %}" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" class="delete-btn" onclick="return confirm('Delete this student?');">Delete</button>
         </form>
-
+      </div>
     </div>
+    {% empty %}
+    <div class="empty-state">No students found.</div>
+    {% endfor %}
+  </div>
 
-{% empty %}
+  <div class="pagination">
+    {% if students.has_previous %}
+      <a href="?page={{ students.previous_page_number }}&q={{ query|default:'' }}&sort={{ sort }}">← Prev</a>
+    {% endif %}
+    <span>Page {{ students.number }} of {{ students.paginator.num_pages }}</span>
+    {% if students.has_next %}
+      <a href="?page={{ students.next_page_number }}&q={{ query|default:'' }}&sort={{ sort }}">Next →</a>
+    {% endif %}
+  </div>
 
-    <p>No students found.</p>
-
-{% endfor %}
-
-
-{% if students.has_other_pages %}
-
-    <div class="pagination">
-
-        {% if students.has_previous %}
-
-            <a href="?page={{ students.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">
-                Previous
-            </a>
-
-        {% endif %}
-
-        <span>
-            Page {{ students.number }} of {{ students.paginator.num_pages }}
-        </span>
-
-        {% if students.has_next %}
-
-            <a href="?page={{ students.next_page_number }}{% if query %}&q={{ query }}{% endif %}">
-                Next
-            </a>
-
-        {% endif %}
-
-    </div>
-
-{% endif %}
-
+</div>
 {% endblock %}

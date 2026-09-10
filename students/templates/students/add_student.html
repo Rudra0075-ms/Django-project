@@ -1,21 +1,15 @@
 {% extends 'students/base.html' %}
-
-{% block title %}
-Add Student
-{% endblock %}
-
+{% block title %}Add Student{% endblock %}
 {% block content %}
-
-<h2>Add Student</h2>
-
-<form method="POST">
-
-    {% csrf_token %}
-
-    {{ form.as_p }}
-
-    <button type="submit">Add Student</button>
-
-</form>
-
+<div class="form-wrapper">
+  <div class="form-box">
+    <h2>Add Student</h2>
+    <p class="subtitle">Fill in the details below</p>
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Save Student</button>
+    </form>
+  </div>
+</div>
 {% endblock %}

@@ -1,31 +1,25 @@
 {% extends 'students/base.html' %}
-
-{% block title %}
-Dashboard
-{% endblock %}
-
+{% block title %}Dashboard{% endblock %}
 {% block content %}
+<div class="container">
 
-<h2>Dashboard</h2>
+  <div class="dashboard-hero">
+    <h2>Welcome back 👋</h2>
+    <p class="subtitle">Here's an overview of your Student Management System</p>
+  </div>
 
-<p>Welcome to the Student Management System.</p>
+  <div class="stats-grid">
+    <div class="student-card">
+      <div class="card-icon">🎓</div>
+      <h3>Total Students</h3>
+      <h1>{{ total_students }}</h1>
+    </div>
+  </div>
 
-<div class="student-card">
-
-    <h3>Total Students</h3>
-
-    <h1>{{ total_students }}</h1>
+  <div class="action-row">
+    <a href="{% url 'student_list' %}" class="add-btn btn-secondary">View Students</a>
+    <a href="{% url 'add_student' %}" class="add-btn btn-primary">+ Add Student</a>
+  </div>
 
 </div>
-
-<br>
-
-<a class="add-btn" href="{% url 'student_list' %}">
-    View Students
-</a>
-
-<a class="add-btn" href="{% url 'add_student' %}">
-    + Add Student
-</a>
-
 {% endblock %}

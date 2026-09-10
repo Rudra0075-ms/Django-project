@@ -6,7 +6,24 @@ class StudentForm(forms.ModelForm):
 
     class Meta:
         model = Student
-        fields = ['name', 'email', 'age']
+        fields = ['name', 'email', 'age', 'photo']
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'placeholder': 'e.g. Jane Doe',
+                'autocomplete': 'name',
+            }),
+            'email': forms.EmailInput(attrs={
+                'placeholder': 'name@college.edu',
+                'autocomplete': 'email',
+            }),
+            'age': forms.NumberInput(attrs={
+                'min': '1',
+                'placeholder': 'Age',
+            }),
+            'photo': forms.FileInput(attrs={
+                'accept': 'image/*',
+            }),
+        }
 
     def clean_name(self):
         name = self.cleaned_data['name']
@@ -27,3 +44,9 @@ class StudentForm(forms.ModelForm):
             )
 
         return age
+
+    def clean_photo(self):
+        photo = self.cleaned_data.get('photo')
+        if not photo and self.instance and self.instance.pk and self.instance.photo:
+            return self.instance.photo
+        return photo

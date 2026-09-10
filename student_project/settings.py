@@ -27,11 +27,13 @@ SECRET_KEY = os.environ.get(
     "django-insecure-local-development-key"
 )
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", "False") == "True"
+DEBUG = os.environ.get("DEBUG", "False") == True
 
-ALLOWED_HOSTS = [
-    os.environ.get("RENDER_EXTERNAL_HOSTNAME", "")
+ALLOWED_HOSTS = ["127.0.0.1", "localhost","elite-abide-stingy.ngrok-free.dev"]
+CSRF_TRUSTED_ORIGINS = [
+    "https://elite-abide-stingy.ngrok-free.dev",
 ]
+   
 
 
 # Application definition
@@ -135,3 +137,6 @@ MAILERS = {
     },
 }
 LOGIN_URL = '/login/'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

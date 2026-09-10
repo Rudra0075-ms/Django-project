@@ -1,11 +1,9 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html>
-
 <head>
 
-    <title>{% block title %}Student Management System{% endblock %}</title>
+    <title>{% block title %}Student Management{% endblock %}</title>
 
     <link rel="stylesheet" href="{% static 'students/style.css' %}">
 
@@ -13,43 +11,33 @@
 
 <body>
 
-    <div class="container">
+    <h1>🎓 Student Management System</h1>
 
-        <h1>🎓 Student Management System</h1>
+    <nav>
 
-        <nav>
+        <a href="{% url 'home' %}">Home</a> |
+        <a href="{% url 'student_list' %}">Students</a> |
+        <a href="{% url 'add_student' %}">Add Student</a> |
 
-            <a href="{% url 'home' %}">Home</a> |
-            <a href="{% url 'student_list' %}">Students</a> |
-            <a href="{% url 'add_student' %}">Add Student</a> |
-
-            {% if user.is_authenticated %}
-                <a href="{% url 'logout' %}">Logout</a>
-            {% else %}
-                <a href="{% url 'login' %}">Login</a>
-            {% endif %}
-
-        </nav>
-
-        <hr>
-
-        {% if messages %}
-
-            {% for message in messages %}
-
-                <div class="message">
-                    {{ message }}
-                </div>
-
-            {% endfor %}
-
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
         {% endif %}
 
-        {% block content %}
-        {% endblock %}
+    </nav>
 
-    </div>
+    <hr>
+
+    {% if messages %}
+
+        {% for message in messages %}
+            <p class="message">{{ message }}</p>
+        {% endfor %}
+
+    {% endif %}
+
+    {% block content %}{% endblock %}
 
 </body>
-
 </html>
