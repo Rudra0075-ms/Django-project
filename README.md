@@ -7,7 +7,7 @@ A simple Student Management System built using Django and Python.
 
 ## Features
 
-- User Signup
+- User Signup  
 - User Login and Logout
 - Add Student
 - Edit Student
