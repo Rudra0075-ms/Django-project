@@ -1,7 +1,7 @@
 
 # Student Management System
 
-### 🌐 [Live Demo](https://student-management-system-r8ey.onrender.com)
+### 🌐 [Live Demo]https://student-management-app-2026.netlify.app/
 
 A simple Student Management System built using Django and Python.
 
